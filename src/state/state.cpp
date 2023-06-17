@@ -14,7 +14,7 @@
 int State::evaluate(){
   // [TODO] design your own evaluation function
   Board now = this->board;
-  int value[10]={0,1,3,3,5,9,200};
+  int value[10]={0,1,5,3,3,9,200};
   int my_score=0;
   int opponent_score=0;
   for(int i=0;i<BOARD_H;i++){
