@@ -13,7 +13,17 @@
  */
 int State::evaluate(){
   // [TODO] design your own evaluation function
-  return 0;
+  Board now = this->board;
+  int value[10]={0,1,3,3,5,9,200};
+  int my_score=0;
+  int opponent_score=0;
+  for(int i=0;i<BOARD_H;i++){
+    for(int j=0;j<BOARD_W;j++){
+      my_score+=value[now.board[player][i][j]];
+      opponent_score+=value[now.board[1-player][i][j]];
+    }
+  }
+  return my_score-opponent_score;
 }
 
 
