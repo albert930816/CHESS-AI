@@ -12,39 +12,44 @@
  * @return int 
  */
 int State::evaluate() {
-  Board now = this->board;
-  int value[10] = {0, 1, 5, 3, 3, 9, 200};
-  int my_score = 0;
-  int opponent_score = 0;
-  
+  const Board& now = this->board;
+  static const int value[10] = {0, 1, 5, 3, 3, 9, 20000};
+
   // Position weights
-  int position_weights_me[6][5] = {
-    {50, 10, 10, 10, 50},
+  static const int position_weights_me[6][5] = {
+    {100, 10, 10, 10, 100},
     {10, 5, 5, 5, 10},
     {10, 5, 1, 5, 10},
     {10, 5, 1, 5, 10},
     {10, 5, 1, 5, 10},
-    {50, 10, 10, 10, 50}
+    {100, 10, 10, 10, 100}
   };
 
-  int position_weights_opponent[6][5] = {
-    {50, 10, 10, 10, 50},
+  static const int position_weights_opponent[6][5] = {
+    {100, 10, 10, 10, 100},
     {10, 5, 1, 5, 10},
     {10, 5, 1, 5, 10},
     {10, 5, 1, 5, 10},
     {10, 5, 5, 5, 10},
-    {50, 10, 10, 10, 50}
+    {100, 10, 10, 10, 100}
   };
-  
+
+  int my_score = 0;
+  int opponent_score = 0;
+
   for (int i = 0; i < BOARD_H; i++) {
     for (int j = 0; j < BOARD_W; j++) {
-      my_score += value[now.board[player][i][j]] + position_weights_me[i][j];
-      opponent_score += value[now.board[1 - player][i][j]] + position_weights_opponent[i][j];
+      int player_piece = now.board[player][i][j];
+      int opponent_piece = now.board[1 - player][i][j];
+
+      my_score += value[player_piece] + position_weights_me[i][j];
+      opponent_score += value[opponent_piece] + position_weights_opponent[i][j];
     }
   }
-  
+
   return my_score - opponent_score;
 }
+
 
 
 

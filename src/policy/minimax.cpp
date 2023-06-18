@@ -11,14 +11,14 @@ int Minimax::minimax(State* node,int depth, bool maximizingPlayer){
         return node->evaluate();
     }
     if(maximizingPlayer){
-        value = -(2e5);
+        value = -(2e8);
         for(auto it:node->legal_actions){
             State* next_move = node->next_state(it);
             value = std::max(value,minimax(next_move,depth-1,1-maximizingPlayer));
         }
     }
     else{
-        value = 2e5;
+        value = 2e8;
         for(auto it:node->legal_actions){
             State* next_move = node->next_state(it);
             value = std::min(value,minimax(next_move,depth-1,1-maximizingPlayer));
@@ -29,14 +29,14 @@ int Minimax::minimax(State* node,int depth, bool maximizingPlayer){
 
 Move Minimax::get_move(State *state, int depth){
   Move bestMove;
-  int Max=-2e5;
+  int Max=-2e8;
   int tmp;
   if(!state->legal_actions.size())
     state->get_legal_actions();
-  
   for(auto it:state->legal_actions){
     State* next_move = state->next_state(it);
     tmp=minimax(next_move,depth-1,state->player);
+    std::cout<<tmp;
     if(tmp>Max){
         Max=tmp;
         bestMove = it;
