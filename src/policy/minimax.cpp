@@ -14,7 +14,8 @@ int Minimax::minimax(State* node,int depth, bool maximizingPlayer,int alpha,int 
         value = -(2e5);
         for(auto it:node->legal_actions){
             State* next_move = node->next_state(it);
-            alpha=value = std::max(value,minimax(next_move,depth-1,false,value,2e5));
+            value = std::max(value,minimax(next_move,depth-1,1-maximizingPlayer,alpha,2e5));
+            alpha = std::max(alpha,value);
             if(alpha>=beta){
                 break;
             }
@@ -24,7 +25,8 @@ int Minimax::minimax(State* node,int depth, bool maximizingPlayer,int alpha,int 
         value = 2e5;
         for(auto it:node->legal_actions){
             State* next_move = node->next_state(it);
-            beta=value = std::min(value,minimax(next_move,depth-1,true,-2e5,value));
+            value = std::min(value,minimax(next_move,depth-1,1-maximizingPlayer,-2e5,beta));
+            beta = std::min(beta,value);
             if(alpha>=beta){
                 break;
             }
