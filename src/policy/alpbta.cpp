@@ -14,10 +14,12 @@ int Alpbta::alpbta(State* node, int depth, bool maximizingPlayer, int alpha, int
         int value = -2e8; 
         for (auto it : node->legal_actions) {
             State* next_move = node->next_state(it);
-            value = std::max(value, alpbta(next_move, depth - 1, false, alpha, beta));
-            alpha = std::max(alpha, value);
-            if (alpha >= beta) {
-                break;
+            if(next_move!=nullptr){
+                value = std::max(value, alpbta(next_move, depth - 1, false, alpha, beta));
+                alpha = std::max(alpha, value);
+                if (alpha >= beta) {
+                    break;
+                }
             }
         }
         return value;
@@ -45,7 +47,7 @@ Move Alpbta::get_move(State *state, int depth){
   
   for(auto it:state->legal_actions){
     State* next_move = state->next_state(it);
-    tmp=alpbta(next_move,depth-1,state->player,Max,2e5);
+    tmp=alpbta(next_move,depth-1,state->player,Max,2e8);
     if(tmp>Max){
         Max=tmp;
         bestMove = it;
