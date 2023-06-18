@@ -5,7 +5,7 @@
 #include "./minimax.hpp"
 
 
-int Minimax::minimax(State* node,int depth, bool maximizingPlayer,int alpha,int beta){
+int Minimax::minimax(State* node,int depth, bool maximizingPlayer){
     int value;
     if(depth==0){
         return node->evaluate();
@@ -14,22 +14,14 @@ int Minimax::minimax(State* node,int depth, bool maximizingPlayer,int alpha,int 
         value = -(2e5);
         for(auto it:node->legal_actions){
             State* next_move = node->next_state(it);
-            value = std::max(value,minimax(next_move,depth-1,1-maximizingPlayer,alpha,2e5));
-            alpha = std::max(alpha,value);
-            if(alpha>=beta){
-                break;
-            }
+            value = std::max(value,minimax(next_move,depth-1,1-maximizingPlayer));
         }
     }
     else{
         value = 2e5;
         for(auto it:node->legal_actions){
             State* next_move = node->next_state(it);
-            value = std::min(value,minimax(next_move,depth-1,1-maximizingPlayer,-2e5,beta));
-            beta = std::min(beta,value);
-            if(alpha>=beta){
-                break;
-            }
+            value = std::min(value,minimax(next_move,depth-1,1-maximizingPlayer));
         }
     }
     return value;
@@ -44,7 +36,7 @@ Move Minimax::get_move(State *state, int depth){
   
   for(auto it:state->legal_actions){
     State* next_move = state->next_state(it);
-    tmp=minimax(next_move,depth-1,state->player,Max,2e5);
+    tmp=minimax(next_move,depth-1,state->player);
     if(tmp>Max){
         Max=tmp;
         bestMove = it;

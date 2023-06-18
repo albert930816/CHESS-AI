@@ -11,20 +11,41 @@
  * 
  * @return int 
  */
-int State::evaluate(){
-  // [TODO] design your own evaluation function
+int State::evaluate() {
   Board now = this->board;
-  int value[10]={0,1,5,3,3,9,200};
-  int my_score=0;
-  int opponent_score=0;
-  for(int i=0;i<BOARD_H;i++){
-    for(int j=0;j<BOARD_W;j++){
-      my_score+=value[now.board[player][i][j]];
-      opponent_score+=value[now.board[1-player][i][j]];
+  int value[10] = {0, 1, 5, 3, 3, 9, 200};
+  int my_score = 0;
+  int opponent_score = 0;
+  
+  // Position weights
+  int position_weights_me[6][5] = {
+    {50, 10, 10, 10, 50},
+    {10, 5, 5, 5, 10},
+    {10, 5, 1, 5, 10},
+    {10, 5, 1, 5, 10},
+    {10, 5, 1, 5, 10},
+    {50, 10, 10, 10, 50}
+  };
+
+  int position_weights_opponent[6][5] = {
+    {50, 10, 10, 10, 50},
+    {10, 5, 1, 5, 10},
+    {10, 5, 1, 5, 10},
+    {10, 5, 1, 5, 10},
+    {10, 5, 5, 5, 10},
+    {50, 10, 10, 10, 50}
+  };
+  
+  for (int i = 0; i < BOARD_H; i++) {
+    for (int j = 0; j < BOARD_W; j++) {
+      my_score += value[now.board[player][i][j]] + position_weights_me[i][j];
+      opponent_score += value[now.board[1 - player][i][j]] + position_weights_opponent[i][j];
     }
   }
-  return my_score-opponent_score;
+  
+  return my_score - opponent_score;
 }
+
 
 
 /**
