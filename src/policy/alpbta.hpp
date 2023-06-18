@@ -11,7 +11,7 @@
 
 class Alpbta{
     public:
-        static int alpbta(State* node,int depth, bool maximizingPlayer,int alpha,int beta);
+        static int alpbta(State* node,int depth, int me,int alpha,int beta);
         static Move get_move(State *state, int depth);
 };
 

@@ -11,7 +11,7 @@
  * 
  * @return int 
  */
-int State::evaluate() {
+int State::evaluate(int me) {
   const Board& now = this->board;
   static const int value[10] = {0, 100, 500, 320, 330, 900, 200000};
 
@@ -113,7 +113,7 @@ int State::evaluate() {
     {5,0,-5,0,5},
     {-5,-10,-15,-10,-5},
     {-10,-20,-30,-20,-15},
-    {-30,-40,-50,-40,-50},
+    {-50,-40,-50,-40,-30},
   }
   };
 
@@ -122,14 +122,14 @@ int State::evaluate() {
 
   for (int i = 0; i < BOARD_H; i++) {
     for (int j = 0; j < BOARD_W; j++) {
-      int player_piece = now.board[player][i][j];
-      int opponent_piece = now.board[1 - player][i][j];
+      int player_piece = now.board[me][i][j];
+      int opponent_piece = now.board[1 - me][i][j];
 
       my_score += value[player_piece] + position_weights_me[player_piece][i][j];
-      opponent_score += value[opponent_piece] + position_weights_opponent[player_piece][i][j];
+      opponent_score += value[opponent_piece] + position_weights_opponent[opponent_piece][i][j];
     }
   }
-
+  
   return my_score - opponent_score;
 }
 

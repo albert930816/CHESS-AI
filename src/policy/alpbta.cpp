@@ -5,21 +5,19 @@
 #include "./alpbta.hpp"
 
 
-int Alpbta::alpbta(State* node, int depth, bool maximizingPlayer, int alpha, int beta) {
+int Alpbta::alpbta(State* node, int depth, int me, int alpha, int beta) {
     if (depth == 0) {
-        return node->evaluate();
+        return node->evaluate(me);
     }
     
-    if (maximizingPlayer) {
+    if (node->player==me) {
         int value = -2e8; 
         for (auto it : node->legal_actions) {
             State* next_move = node->next_state(it);
-            if(next_move!=nullptr){
-                value = std::max(value, alpbta(next_move, depth - 1, false, alpha, beta));
-                alpha = std::max(alpha, value);
-                if (alpha >= beta) {
-                    break;
-                }
+            value = std::max(value, alpbta(next_move, depth - 1, me, alpha, beta));
+            alpha = std::max(alpha, value);
+            if (alpha >= beta) {
+                break;
             }
         }
         return value;
@@ -27,7 +25,7 @@ int Alpbta::alpbta(State* node, int depth, bool maximizingPlayer, int alpha, int
         int value = 2e8;
         for (auto it : node->legal_actions) {
             State* next_move = node->next_state(it);
-            value = std::min(value, alpbta(next_move, depth - 1, true, alpha, beta));
+            value = std::min(value, alpbta(next_move, depth - 1, me, alpha, beta));
             beta = std::min(beta, value);
             if (alpha >= beta) {
                 break;

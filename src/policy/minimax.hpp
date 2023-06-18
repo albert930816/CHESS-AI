@@ -11,7 +11,7 @@
 
 class Minimax{
     public:
-        static int minimax(State* node,int depth, bool maximizingPlayer);
+        static int minimax(State* node,int depth, int me);
         static Move get_move(State *state, int depth);
 };
 
