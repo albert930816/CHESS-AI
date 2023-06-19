@@ -16,6 +16,9 @@ int Alpbta::alpbta(State* node, int depth, int me, int alpha, int beta,std::unor
     
     if (node->player==me) {
         int value = -2e8; 
+        if(node->game_state==WIN){
+            return 2e8;
+        }
         for (auto it : node->legal_actions) {
             State* next_move = node->next_state(it);
             value = std::max(value, alpbta(next_move, depth - 1, me, alpha, beta,cache));
@@ -28,6 +31,9 @@ int Alpbta::alpbta(State* node, int depth, int me, int alpha, int beta,std::unor
         return value;
     } else {
         int value = 2e8;
+        if(node->game_state==WIN){
+            return -2e8;
+        }
         for (auto it : node->legal_actions) {
             State* next_move = node->next_state(it);
             value = std::min(value, alpbta(next_move, depth - 1, me, alpha, beta,cache));
@@ -47,8 +53,8 @@ Move Alpbta::get_move(State *state, int depth){
   int Max=-2e8;
   int tmp;
   std::unordered_map<State*, int> cache;
-  if(!state->legal_actions.size())
-    state->get_legal_actions();
+  if(state->legal_actions.size())
+    bestMove=state->legal_actions[0];
   
   for(auto it:state->legal_actions){
     State* next_move = state->next_state(it);

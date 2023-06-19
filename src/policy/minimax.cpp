@@ -14,6 +14,9 @@ int Minimax::minimax(State* node,int depth, int me){
         node->get_legal_actions();
     if(node->player==me){
         value = -(2e8);
+        if(node->game_state==WIN){
+            return 2e8;
+        }
         for(auto it:node->legal_actions){
             State* next_move = node->next_state(it);
             value = std::max(value,minimax(next_move,depth-1,me));
@@ -21,6 +24,9 @@ int Minimax::minimax(State* node,int depth, int me){
     }
     else{
         value = 2e8;
+        if(node->game_state==WIN){
+            return -2e8;
+        }
         for(auto it:node->legal_actions){
             State* next_move = node->next_state(it);
             value = std::min(value,minimax(next_move,depth-1,me));
@@ -33,8 +39,8 @@ Move Minimax::get_move(State *state, int depth){
   Move bestMove;
   int Max=-2e8;
   int tmp;
-  if(!state->legal_actions.size())
-    state->get_legal_actions();
+  if(state->legal_actions.size())
+    bestMove=state->legal_actions[0];
   for(auto it:state->legal_actions){
     State* next_move = state->next_state(it);
     tmp=minimax(next_move,depth-1,state->player);
