@@ -18,7 +18,7 @@ int State::evaluate(int me) {
   // Position weights
   static const int position_weights_me[10][10][10]={
   {
-    {0,0,0,0,0},
+    {0,0,0,0,0},//P
     {40,40,40,40,40},
     {20,20,20,20,20},
     {0,0,0,0,0},
@@ -26,7 +26,7 @@ int State::evaluate(int me) {
     {0,0,0,0,0},
   },
   {
-    {-15,-10,-10,-10,-15},
+    {-15,-10,-10,-10,-15},//R
     {-10,0,5,0,-10},
     {-5,5,10,5,-5},
     {-5,5,10,5,-5},
@@ -34,7 +34,7 @@ int State::evaluate(int me) {
     {-15,-10,-10,-10,-15},
   },
   {
-    {0,0,5,0,0},
+    {0,0,5,0,0},//N
     {-5,0,0,0,-5},
     {-5,0,0,0,-5},
     {-5,0,0,0,-5},
@@ -42,7 +42,7 @@ int State::evaluate(int me) {
     {0,0,5,0,0},
   },
    {
-    {-40,-30,-20,-30,-40},
+    {-40,-30,-20,-30,-40},//B
     {-30,-15,0,-15,-30},
     {-20,0,10,0,-20},
     {-20,0,10,0,-20},
@@ -50,7 +50,7 @@ int State::evaluate(int me) {
     {-40,-30,-20,-30,-40},
   },
   {
-    {-15,-10,-5,-10,-15},
+    {-15,-10,-5,-10,-15},//Q
     {-10,0,0,0,-10},
     {-5,0,5,0,-5},
     {-5,0,5,0,-5},
@@ -58,7 +58,7 @@ int State::evaluate(int me) {
     {-15,-10,-5,-10,-15},
   },
   {
-    {-30,-40,-50,-40,-50},
+    {-30,-40,-50,-40,-50},//K
     {-15,-20,-30,-20,-10},
     {-10,-5,-20,-5,-10},
     {-5,-10,-15,-10,-5},
@@ -126,7 +126,7 @@ int State::evaluate(int me) {
       int opponent_piece = now.board[1 - me][i][j];
 
       my_score += value[player_piece] + position_weights_me[player_piece][i][j];
-      opponent_score += value[opponent_piece] + position_weights_opponent[opponent_piece][i][j];
+      opponent_score += (value[opponent_piece] + position_weights_opponent[opponent_piece][i][j]);
     }
   }
   
