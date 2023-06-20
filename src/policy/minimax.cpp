@@ -10,6 +10,9 @@ int Minimax::minimax(State* node,int depth, int me,std::unordered_map<State*, in
     if(depth==0){
         return node->evaluate(me);
     }
+    if (cache.count(node)) {
+        return cache[node];
+    }
     if(!node->legal_actions.size())
         node->get_legal_actions();
     if(node->player==me){
